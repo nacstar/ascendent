@@ -64,7 +64,7 @@
         <input type="time" id="birthTime" placeholder="z.B. 12:00"><br>
         <label for="location">Geburtsort:</label>
         <input type="text" id="location" placeholder="z.B. München"><br>
-        <button onclick="getCoordinatesAndCalculate()">Berechnen</button>
+        <button id="calculateButton">Berechnen</button>
         <p id="coordinates"></p>
         <p id="result"></p>
         <div id="meaning"></div>
@@ -76,16 +76,33 @@
     </div>
 
     <script>
+        window.onload = function() {
+            console.log("Seite geladen, DOM bereit.");
+            document.getElementById("calculateButton").addEventListener("click", getCoordinatesAndCalculate);
+        };
+
         async function getCoordinatesAndCalculate() {
-            const birthDate = document.getElementById("birthDate").value;
-            const birthTime = document.getElementById("birthTime").value;
-            const location = document.getElementById("location").value;
+            console.log("Berechnen geklickt.");
+            const birthDateInput = document.getElementById("birthDate");
+            const birthTimeInput = document.getElementById("birthTime");
+            const locationInput = document.getElementById("location");
+
+            if (!birthDateInput || !birthTimeInput || !locationInput) {
+                document.getElementById("result").innerText = "Eingabefelder nicht gefunden!";
+                console.error("Eingabefelder fehlen im DOM.");
+                return;
+            }
+
+            const birthDate = birthDateInput.value;
+            const birthTime = birthTimeInput.value;
+            const location = locationInput.value;
 
             if (!birthDate || !birthTime || !location) {
                 document.getElementById("result").innerText = "Bitte alle Felder ausfüllen!";
                 return;
             }
 
+            console.log("Eingaben:", birthDate, birthTime, location);
             const sunSign = getSunSign(birthDate);
 
             try {
@@ -99,6 +116,7 @@
                     const longitude = parseFloat(data[0].lon);
                     document.getElementById("coordinates").innerText = 
                         `Koordinaten: ${latitude}, ${longitude}`;
+                    console.log("Koordinaten geladen:", latitude, longitude);
 
                     calculateAscendant(birthDate, birthTime, latitude, longitude, sunSign);
                     showSkyView(birthDate, birthTime, latitude, longitude);
