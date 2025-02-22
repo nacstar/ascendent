@@ -33,10 +33,23 @@
         input, button {
             margin-bottom: 10px;
         }
-        #result {
+        #result, #meaning {
             margin-top: 10px;
         }
-        h1 {
+        #skyView {
+            flex: 2;
+        }
+        #skyView img {
+            max-width: 100%;
+            max-height: 40vh;
+            border: 1px solid #ccc;
+        }
+        #trivia, #history {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 25vh;
+        }
+        h1, h3 {
             margin: 0 0 10px 0;
             font-size: 1.2em;
         }
@@ -52,10 +65,14 @@
         <label for="location">Geburtsort:</label>
         <input type="text" id="location" placeholder="z.B. München"><br>
         <button id="calculateButton">Berechnen</button>
+        <p id="coordinates"></p>
         <p id="result"></p>
+        <div id="meaning"></div>
     </div>
     <div id="right-column">
-        <p>Hier kommt später die Himmelskarte.</p>
+        <div id="skyView"></div>
+        <div id="trivia"></div>
+        <div id="history"></div>
     </div>
     <script src="script.js"></script>
 </body>
