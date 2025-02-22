@@ -163,14 +163,9 @@ async function showBirthDateHistory(birthDate) {
     const wikiTitle = `${day}. ${monthName}`;
 
     try {
-        const response = await fetch(`https://de.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${encodeURIComponent(wikiTitle)}&srlimit=1&origin=*`);
+        const response = await fetch(`https://de.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro&explaintext&titles=${encodeURIComponent(wikiTitle)}&origin=*`);
         const data = await response.json();
-        const searchResult = data.query.search[0];
-        const pageTitle = searchResult ? searchResult.title : wikiTitle;
-
-        const pageResponse = await fetch(`https://de.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro&explaintext&titles=${encodeURIComponent(pageTitle)}&origin=*`);
-        const pageData = await pageResponse.json();
-        const page = Object.values(pageData.query.pages)[0];
+        const page = Object.values(data.query.pages)[0];
         const extract = page.extract || "Keine historischen Daten gefunden.";
         document.getElementById("history").innerHTML = 
             `<h3>Geschichte:</h3><p>${extract.split('\n')[0]}</p>`;
