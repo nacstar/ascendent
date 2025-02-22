@@ -144,8 +144,9 @@ async function showBirthDateTrivia(birthDate) {
     const dayMonth = `${month}/${day}`;
 
     try {
-        const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://numbersapi.com/${dayMonth}/date`)}`);
-        const triviaText = await response.text();
+        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(`https://numbersapi.com/${dayMonth}/date`)}`);
+        const data = await response.json();
+        const triviaText = data.contents; // allorigins.win liefert den Inhalt im 'contents'-Feld
         document.getElementById("trivia").innerHTML = 
             `<h3>Trivia (englisch):</h3><p>${triviaText}</p>`;
         console.log("Trivia geladen:", triviaText);
