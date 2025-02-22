@@ -144,7 +144,7 @@ async function showBirthDateTrivia(birthDate) {
     const dayMonth = `${month}/${day}`;
 
     try {
-        const response = await fetch(`https://numbersapi.com/${dayMonth}/date`); // HTTPS statt HTTP
+        const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://numbersapi.com/${dayMonth}/date`)}`);
         const triviaText = await response.text();
         document.getElementById("trivia").innerHTML = 
             `<h3>Trivia (englisch):</h3><p>${triviaText}</p>`;
